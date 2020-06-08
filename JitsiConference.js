@@ -2,7 +2,6 @@
 import { Strophe } from 'strophe.js';
 
 import EventEmitter from 'events';
-import { getLogger } from 'jitsi-meet-logger';
 import isEqual from 'lodash.isequal';
 
 import * as JitsiConferenceErrors from './JitsiConferenceErrors';
@@ -62,8 +61,8 @@ import {
     createP2PEvent
 } from './service/statistics/AnalyticsEvents';
 import * as XMPPEvents from './service/xmpp/XMPPEvents';
-
-const logger = getLogger(__filename);
+import Logger from 'jitsi-meet-logger';
+const logger = Logger.getLogger(__filename);
 
 /**
  * How long since Jicofo is supposed to send a session-initiate, before
@@ -3090,7 +3089,6 @@ JitsiConference.prototype._maybeStartOrStopP2P = function(userLeftEvent) {
         || !this.isP2PEnabled()
         || this.isP2PTestModeEnabled()) {
         logger.info('Auto P2P disabled');
-
         return;
     }
     const peers = this.getParticipants();

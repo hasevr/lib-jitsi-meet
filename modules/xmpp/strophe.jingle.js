@@ -71,8 +71,8 @@ export default class JingleConnectionPlugin extends ConnectionPlugin {
             id: iq.getAttribute('id')
         });
 
-        logger.log(`on jingle ${action} from ${fromJid}`, iq);
-        console.log("on jingle " + action + " from " + fromJid + " sid:" + sid);
+        logger.log(`on jingle ${action} from ${fromJid} sid: ${sid}`, iq);
+//        console.log("on jingle " + action + " from " + fromJid + " sid:" + sid);
         let sess = this.sessions[sid];
 
         if (action !== 'session-initiate') {
@@ -203,7 +203,6 @@ export default class JingleConnectionPlugin extends ConnectionPlugin {
                 reasonText = $(iq).find('>jingle>reason>text').text();
             }
             this.terminate(sess.sid, reasonCondition, reasonText);
-            //delete this.sessions[sid];
             this.eventEmitter.emit(XMPPEvents.CALL_ENDED,
                 sess, reasonCondition, reasonText);
             break;
@@ -291,7 +290,7 @@ export default class JingleConnectionPlugin extends ConnectionPlugin {
                 this.sessions[sid].onTerminated(reasonCondition, reasonText);
             }
             console.log("JingleConnectionPlugin terminate(sid:" + sid + ") called.")
-            //delete this.sessions[sid];
+            delete this.sessions[sid];
         }
     }
 
